@@ -1,0 +1,1219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light" />
+<meta name="theme-color" content="#15191b" />
+<meta name="description" content="A sourced, interactive comparison of next-generation weight-loss agents by receptor mechanism, clinical efficacy, development stage, and real-world availability." />
+<!-- iOS / installable web-app -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Weight-Loss" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+<link rel="manifest" href="manifest.webmanifest" />
+<title>Next-Generation Weight-Loss Agents — Receptor Pharmacology Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ════════════════════════════════════════════════════════════════
+   Refined Clinical Instrument — color is reserved for the four
+   hormone "levers" and for availability. Magnitude stays graphite.
+   ════════════════════════════════════════════════════════════════ */
+:root{
+  --paper:#E8E6DF;      --paper-2:#EFEDE7;
+  --card:#FCFBF7;       --card-2:#F6F4EE;
+  --ink:#1A1D1A;        --ink-soft:#2C312D;
+  --muted:#5C625C;      --faint:#8C918A;
+  --hair:#D6D3C9;       --hair-card:#E6E3DA;
+  --track:#E2DFD5;      --plot:#F4F2EC;
+  --panel:#15191B;      --panel-2:#1D2225;  --panel-line:rgba(255,255,255,.06);
+
+  /* four levers */
+  --glp1:#1F5C9E;   --glp1-t:rgba(31,92,158,.12);
+  --gip:#1E8F84;    --gip-t:rgba(30,143,132,.13);
+  --gluc:#BC7A2A;   --gluc-t:rgba(188,122,42,.14);
+  --amylin:#7A57A0; --amylin-t:rgba(122,87,160,.13);
+
+  /* availability */
+  --avail:#2E8B57;     --avail-t:rgba(46,139,87,.12);
+  --regional:#C49A3A;  --regional-t:rgba(196,154,58,.14);
+  --invest:#6E83A8;    --invest-t:rgba(110,131,168,.12);
+
+  /* trust tiers */
+  --t1:#2E8B57; --t2:#2D6FB3; --t3:#7A8791;
+  /* tolerability */
+  --tol-better:#2E8B57; --tol-mod:#C49A3A; --tol-hard:#B4532B;
+  --pro:#2E8B57; --con:#B4532B;
+
+  --mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --serif:'Fraunces', Georgia, 'Times New Roman', serif;
+  --shadow:0 6px 20px rgba(20,28,22,.06);
+  --shadow-lift:0 14px 34px rgba(20,28,22,.10);
+  --maxw:1200px;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-optical-sizing:auto;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  line-height:1.5; overflow-x:hidden;
+}
+/* engineering-vellum grid */
+body::before{
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    linear-gradient(to right, rgba(26,29,26,.030) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(26,29,26,.030) 1px, transparent 1px);
+  background-size:27px 27px;
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 340px);
+          mask-image:linear-gradient(to bottom, transparent 0, #000 340px);
+}
+.masthead,.toolbar,main,.method,.colophon{position:relative; z-index:1}
+.mono{font-family:var(--mono)}
+.wrap{max-width:var(--maxw); margin:0 auto;
+  padding-left:max(clamp(16px,4vw,40px), env(safe-area-inset-left));
+  padding-right:max(clamp(16px,4vw,40px), env(safe-area-inset-right));}
+::selection{background:rgba(46,139,87,.22)}
+:focus-visible{outline:2px solid var(--glp1); outline-offset:3px; border-radius:3px}
+
+/* ── touch / iOS behaviour ─────────────────────────────────────── */
+*{-webkit-tap-highlight-color:transparent}
+button, .toggle{touch-action:manipulation; -webkit-user-select:none; user-select:none}
+.dot, svg.plot text, .seg, .rank, .kicker{-webkit-user-select:none; user-select:none}
+.seg button:active, .toggle:active, .detail-toggle:active{transform:translateY(1px)}
+@media (hover:none){
+  .card:hover{transform:none; box-shadow:var(--shadow)}      /* no sticky hover-lift on touch */
+  .card:active{box-shadow:var(--shadow-lift)}
+}
+
+/* ── tiny shared atoms ──────────────────────────────────────────── */
+.kicker{font-family:var(--mono); font-size:.72rem; letter-spacing:.22em; text-transform:uppercase}
+.tnum{font-variant-numeric:tabular-nums lining-nums}
+
+/* ════════════ MASTHEAD — dark instrument panel ════════════ */
+.masthead{
+  background:
+    radial-gradient(140% 120% at 88% -10%, rgba(46,139,87,.16), transparent 60%),
+    radial-gradient(120% 120% at -5% 0%, rgba(45,111,179,.16), transparent 55%),
+    var(--panel);
+  color:#EAF0EE; overflow:hidden;
+  border-bottom:1px solid #0c0f10;
+}
+.masthead::before{ /* fine grid texture on the panel */
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.5;
+  background-image:
+    linear-gradient(to right, var(--panel-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--panel-line) 1px, transparent 1px);
+  background-size:34px 34px;
+  -webkit-mask-image:radial-gradient(120% 100% at 50% 0%, #000, transparent 78%);
+          mask-image:radial-gradient(120% 100% at 50% 0%, #000, transparent 78%);
+}
+.mast-inner{position:relative; padding:max(clamp(26px,4.4vw,52px), env(safe-area-inset-top)) 0 clamp(24px,3.6vw,40px)}
+/* registration corner marks */
+.crop{position:absolute; width:16px; height:16px; border:1.5px solid rgba(234,240,238,.22); pointer-events:none}
+.crop.tl{top:14px;left:14px;border-right:0;border-bottom:0}
+.crop.tr{top:14px;right:14px;border-left:0;border-bottom:0}
+.crop.bl{bottom:14px;left:14px;border-right:0;border-top:0}
+.crop.br{bottom:14px;right:14px;border-left:0;border-top:0}
+
+.mast-top{display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap}
+.mast-top .kicker{color:#9DB6AE}
+.disclaim{
+  font-family:var(--mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase;
+  color:#9DB6AE; border:1px solid rgba(234,240,238,.18); border-radius:999px; padding:4px 11px; white-space:nowrap;
+}
+h1.title{
+  margin:18px 0 0; font-weight:430; letter-spacing:-.012em; line-height:1.02;
+  font-size:clamp(2rem,5.6vw,3.5rem); font-optical-sizing:auto;
+}
+h1.title em{font-style:italic; color:#bfe6d2; font-weight:430}
+.lede{
+  margin:16px 0 0; max-width:660px; color:#C3D0CB;
+  font-size:clamp(1rem,1.6vw,1.16rem); line-height:1.55; font-weight:340;
+}
+.lede b{color:#EAF0EE; font-weight:560}
+
+/* four levers legend */
+.levergrid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:clamp(20px,3vw,30px)}
+.lever{
+  position:relative; background:rgba(255,255,255,.045); border:1px solid var(--lc);
+  border-left:3px solid var(--lc); border-radius:11px; padding:12px 13px; overflow:hidden;
+}
+.lever::after{content:""; position:absolute; inset:0 0 auto auto; width:54px; height:54px;
+  background:radial-gradient(circle at 80% 0, var(--lc), transparent 70%); opacity:.16}
+.lever .lh{display:flex; align-items:center; gap:8px}
+.lever .ld{width:10px; height:10px; border-radius:50%; background:var(--lc); box-shadow:0 0 0 3px color-mix(in srgb, var(--lc) 28%, transparent)}
+.lever .ln{font-family:var(--mono); font-size:.8rem; font-weight:600; letter-spacing:.02em; color:#EAF0EE}
+.lever .lnote{margin-top:6px; font-size:.86rem; line-height:1.34; color:#B7C6C0; font-weight:350}
+
+/* stat strip */
+.statstrip{
+  display:flex; flex-wrap:wrap; gap:6px 0; margin-top:18px; padding-top:16px;
+  border-top:1px solid rgba(234,240,238,.13);
+}
+.stat{display:flex; align-items:baseline; gap:8px; padding:0 18px; position:relative}
+.stat + .stat::before{content:""; position:absolute; left:0; top:2px; bottom:2px; width:1px; background:rgba(234,240,238,.16)}
+.stat:first-child{padding-left:0}
+.stat .sv{font-family:var(--mono); font-size:1.04rem; font-weight:600; color:#EAF0EE}
+.stat .sv.green{color:#7BD6A2}
+.stat .sl{font-family:var(--mono); font-size:.62rem; letter-spacing:.13em; text-transform:uppercase; color:#92A8A1}
+
+/* ════════════ STICKY TOOLBAR ════════════ */
+.toolbar{
+  position:sticky; top:0; z-index:30;
+  background:color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter:saturate(140%) blur(10px); -webkit-backdrop-filter:saturate(140%) blur(10px);
+  border-bottom:1px solid var(--hair);
+}
+.toolbar-inner{display:flex; align-items:center; gap:14px 18px; flex-wrap:wrap; padding:11px 0}
+.seg{display:inline-flex; align-items:center; gap:3px; background:var(--track); border-radius:10px; padding:3px}
+.seg button{
+  cursor:pointer; border:0; background:transparent; color:var(--muted);
+  font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; padding:7px 13px; border-radius:7px;
+  display:inline-flex; align-items:center; gap:7px; transition:background .16s, color .16s; white-space:nowrap;
+}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"], .seg button.on{background:var(--ink); color:#F4F2EC}
+.seg button .ic{font-size:.85em; opacity:.9}
+.tb-spacer{flex:1 1 auto}
+.tb-group{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+.tb-label{font-family:var(--mono); font-size:.62rem; letter-spacing:.13em; text-transform:uppercase; color:var(--faint)}
+#cardControls{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+.toggle{
+  cursor:pointer; display:inline-flex; align-items:center; gap:9px; padding:7px 13px; border-radius:9px;
+  background:transparent; border:1px solid var(--hair); color:var(--muted);
+  font-family:var(--mono); font-size:.72rem; letter-spacing:.03em; transition:.16s; white-space:nowrap;
+}
+.toggle:hover{border-color:var(--faint); color:var(--ink)}
+.toggle[aria-pressed="true"]{background:var(--avail-t); border-color:var(--avail); color:#247048}
+.toggle .box{
+  width:15px; height:15px; border-radius:4px; border:1.5px solid var(--faint);
+  display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:10px; transition:.16s;
+}
+.toggle[aria-pressed="true"] .box{background:var(--avail); border-color:var(--avail)}
+
+/* ════════════ MAIN ════════════ */
+main{padding:clamp(18px,3vw,30px) 0 10px}
+.section-eyebrow{
+  display:flex; align-items:center; gap:12px; margin:0 0 14px;
+  font-family:var(--mono); font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:var(--faint);
+}
+.section-eyebrow::after{content:""; flex:1; height:1px; background:var(--hair)}
+
+/* ── MAP CARD ──────────────────────────────────────────────────── */
+.mapcard{
+  position:relative; background:var(--card); border:1px solid var(--hair-card);
+  border-radius:16px; padding:clamp(14px,2.4vw,22px); box-shadow:var(--shadow);
+}
+.mapcard .ic-crop{position:absolute; width:13px; height:13px; border:1.4px solid var(--hair); pointer-events:none}
+.ic-crop.tl{top:10px;left:10px;border-right:0;border-bottom:0}
+.ic-crop.tr{top:10px;right:10px;border-left:0;border-bottom:0}
+.ic-crop.bl{bottom:10px;left:10px;border-right:0;border-top:0}
+.ic-crop.br{bottom:10px;right:10px;border-left:0;border-top:0}
+
+.legend{display:flex; flex-wrap:wrap; gap:8px 18px; margin-bottom:12px}
+.legitem{display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:.72rem; color:var(--muted)}
+.legitem .ld{width:11px; height:11px; border-radius:50%}
+
+.plot-shell{position:relative; width:100%}
+.plot-scroll{width:100%}
+svg.plot{display:block; width:100%; height:auto; touch-action:pan-y; overflow:visible}
+svg.plot text{font-family:var(--mono)}
+.gridline{stroke:var(--hair); stroke-width:1}
+.bandline{stroke:var(--hair-card); stroke-width:1}
+.axisbase{stroke:#cdc9bd; stroke-width:1.4}
+.tickv{stroke:#E0DDD2; stroke-width:1}
+.ticklabel{fill:var(--faint); font-size:18px}
+.bandlabel{font-size:17px; font-weight:600; letter-spacing:.04em; fill:var(--faint)}
+.bandlabel.appr{fill:#2E8B57}
+.axistitle{fill:var(--faint); font-size:16px; letter-spacing:.14em}
+
+.dot{cursor:pointer; transform-box:fill-box; transform-origin:center}
+.dot .hit{fill:transparent}
+.dot .pt{stroke:#FCFBF7; stroke-width:2.4; r:9px; transition:r .15s ease, stroke .15s ease}
+.dot .selring{opacity:0; transition:opacity .15s ease}
+.dot:hover .pt{r:11px}
+.dot.sel .pt{stroke:var(--ink); stroke-width:2.6; r:12px}
+.dot.sel .selring{opacity:1}
+.maplabel{
+  font-size:17.5px; fill:#39433C; paint-order:stroke; stroke:var(--plot); stroke-width:4px;
+  stroke-linejoin:round; pointer-events:none; transition:fill .15s, font-weight .15s;
+}
+.dot:hover .maplabel{fill:var(--ink)}
+.dot.sel .maplabel{fill:var(--ink); font-weight:700}
+
+@keyframes dotin{from{opacity:0; transform:scale(.3)} to{opacity:1; transform:scale(1)}}
+.anim .dot{animation:dotin .5s cubic-bezier(.2,.8,.2,1) both}
+
+/* compact (phone) map — taller canvas, bigger type + tap targets */
+svg.plot.cmp .ticklabel{font-size:25px}
+svg.plot.cmp .bandlabel{font-size:23px}
+svg.plot.cmp .axistitle{font-size:21px; letter-spacing:.1em}
+svg.plot.cmp .maplabel{font-size:25px; stroke-width:5px}
+svg.plot.cmp .dot .pt{r:13px}
+svg.plot.cmp .dot.sel .pt{r:18px}
+svg.plot.cmp .dot:hover .pt{r:15px}
+
+.maptip{
+  position:absolute; z-index:8; pointer-events:none; opacity:0; transform:translate(-50%,-112%) scale(.96);
+  transition:opacity .12s ease, transform .12s ease; min-width:148px; max-width:210px;
+  background:var(--ink); color:#F1EFE8; border-radius:9px; padding:9px 11px; box-shadow:0 10px 26px rgba(0,0,0,.28);
+}
+.maptip.show{opacity:1; transform:translate(-50%,-118%) scale(1)}
+.maptip::after{content:""; position:absolute; left:50%; bottom:-6px; transform:translatexPos(-50%) rotate(45deg); width:11px; height:11px; background:var(--ink); border-radius:2px}
+.maptip .mt-name{font-family:var(--serif); font-size:1rem; font-weight:560; line-height:1.1}
+.maptip .mt-row{font-family:var(--mono); font-size:.68rem; color:#B9C6C0; margin-top:5px; display:flex; align-items:center; gap:6px}
+.maptip .mt-eff{font-family:var(--mono); font-size:1.05rem; font-weight:600; margin-top:6px}
+
+.mapcaption{font-family:var(--mono); font-size:.7rem; line-height:1.55; color:var(--faint); margin-top:10px; max-width:760px}
+.mapcaption b{color:var(--muted); font-weight:600}
+
+/* ── selected agent panel (under map) ──────────────────────────── */
+#mapPanel{margin-top:16px}
+
+/* ════════════ CARDS ════════════ */
+.filter-note{
+  background:var(--avail-t); border:1px solid color-mix(in srgb, var(--avail) 36%, transparent);
+  border-radius:12px; padding:13px 15px; font-size:.96rem; line-height:1.45; color:var(--ink-soft); margin-bottom:14px;
+}
+.filter-note b{color:#247048}
+.cardgrid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; align-items:start}
+
+.card, .panel{
+  position:relative; background:var(--card); border:1px solid var(--hair-card);
+  border-radius:15px; box-shadow:var(--shadow); overflow:hidden; transition:box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+}
+.card:hover{box-shadow:var(--shadow-lift); transform:translateY(-2px)}
+.card.sensible, .panel.sensible{
+  border-color:color-mix(in srgb, var(--avail) 45%, var(--hair-card));
+  box-shadow:0 0 0 1px color-mix(in srgb, var(--avail) 22%, transparent), var(--shadow);
+}
+.card.sensible::before, .panel.sensible::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+  background:linear-gradient(var(--avail), #3da876);
+}
+.card-body, .panel-body{padding:17px clamp(15px,2vw,19px) 15px}
+
+.card-head{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap}
+.card-id{display:flex; align-items:baseline; gap:11px; min-width:0}
+.rank{font-family:var(--mono); font-size:.82rem; font-weight:600; color:var(--faint); padding-top:5px}
+.name{margin:0; font-family:var(--serif); font-size:clamp(1.26rem,2.4vw,1.5rem); font-weight:560; letter-spacing:-.01em; line-height:1.06; color:var(--ink)}
+.tag{font-family:var(--mono); font-size:.68rem; letter-spacing:.02em; color:var(--muted); margin-top:4px}
+
+.availbadge{
+  display:inline-flex; align-items:center; gap:7px; padding:4px 11px; border-radius:999px;
+  border:1px solid; font-family:var(--mono); font-size:.68rem; letter-spacing:.02em; color:var(--ink); white-space:nowrap;
+}
+.availbadge .ab-dot{width:7px; height:7px; border-radius:50%}
+
+.sensible-flag{
+  margin-top:11px; font-family:var(--mono); font-size:.64rem; letter-spacing:.06em; font-weight:600; color:#247048;
+  display:flex; align-items:center; gap:7px;
+}
+
+.levercells{display:grid; grid-template-columns:repeat(2,1fr); gap:7px; margin-top:14px}
+.lvl{display:flex; align-items:center; gap:8px; padding:6px 9px; border-radius:8px; min-width:0;
+  border:1px dashed var(--hair); background:transparent}
+.lvl.on{border:1px solid; border-left-width:3px}
+.lvl .lvdot{width:10px; height:10px; border-radius:50%; flex:0 0 auto; box-sizing:border-box}
+.lvl .lvname{font-family:var(--mono); font-size:.74rem; letter-spacing:.01em; white-space:nowrap; color:var(--faint)}
+.lvl.on .lvname{color:var(--ink)}
+.lvl .lvblock{font-family:var(--mono); font-size:.6rem; font-weight:700; letter-spacing:.04em; margin-left:auto}
+.lvname.struck{text-decoration:line-through}
+
+.effbar{margin-top:16px}
+.effbar-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:7px}
+.effbar-cap{font-family:var(--mono); font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.bar-num{font-family:var(--mono); font-size:1.16rem; font-weight:700; color:var(--ink)}
+.bar-track{height:9px; border-radius:999px; background:var(--track); overflow:hidden; position:relative}
+.bar-track::after{content:""; position:absolute; inset:0; background:repeating-linear-gradient(90deg, transparent 0 calc(16.667% - 1px), rgba(26,29,26,.07) calc(16.667% - 1px) 16.667%)}
+.bar-fill{height:100%; width:0; border-radius:999px; background:linear-gradient(90deg,#2B332B,#4A554C); position:relative; z-index:1; transition:width .9s cubic-bezier(.2,.7,.2,1)}
+
+.meta-row{display:flex; gap:16px; margin-top:15px; flex-wrap:wrap; align-items:flex-end}
+.meta .ml{font-family:var(--mono); font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--faint)}
+.meta .mv{font-family:var(--mono); font-size:.8rem; color:var(--ink); margin-top:3px}
+.meta-src{margin-left:auto; display:flex; align-items:center; gap:7px}
+.meta-src .trial{font-family:var(--mono); font-size:.66rem; color:var(--faint)}
+
+.trustbadge{
+  display:inline-flex; align-items:center; gap:5px; padding:2px 8px; border-radius:6px;
+  border:1px solid; font-family:var(--mono); font-weight:700; letter-spacing:.02em; font-size:.66rem; cursor:help;
+}
+.trustbadge.sm{font-size:.6rem; padding:1px 6px}
+
+.detail-toggle{
+  margin-top:15px; width:100%; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:9px;
+  padding:10px 12px; border-radius:9px; background:var(--card-2); border:1px solid var(--hair-card);
+  color:var(--muted); font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; transition:background .16s, color .16s;
+}
+.detail-toggle:hover{background:#EEEBE3; color:var(--ink)}
+.detail-toggle .chev{font-size:.66rem; transition:transform .22s ease}
+.card.open .detail-toggle{background:#EEEBE3}
+.card.open .detail-toggle .chev{transform:rotate(180deg)}
+
+.detailwrap{display:grid; grid-template-rows:0fr; transition:grid-template-rows .3s cubic-bezier(.2,.7,.2,1)}
+.card.open .detailwrap{grid-template-rows:1fr}
+.detailwrap-inner{overflow:hidden}
+.detail{padding:2px clamp(15px,2vw,19px) 18px}
+.detail .rule{height:1px; background:var(--hair-card); margin-bottom:14px}
+
+.provenance{padding:12px 13px; border-radius:10px; background:var(--paper-2); border:1px solid var(--hair-card)}
+.prov-top{display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-bottom:8px}
+.prov-src{font-family:var(--mono); font-size:.78rem; color:var(--ink)}
+.prov-extra{font-family:var(--mono); font-size:.7rem; color:var(--muted)}
+.prov-trial{font-family:var(--mono); font-size:.72rem; color:var(--muted)}
+.prov-detail{font-size:.95rem; line-height:1.45; color:var(--ink-soft); margin-top:8px}
+.prov-tol{display:flex; align-items:center; gap:8px; margin-top:10px}
+.prov-tol .td{width:9px; height:9px; border-radius:50%}
+.prov-tol .tl{font-family:var(--mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+.prov-tol .tv{font-family:var(--mono); font-size:.74rem; font-weight:600}
+
+.pc{margin-top:13px}
+.pc-title{font-family:var(--mono); font-size:.66rem; letter-spacing:.1em; font-weight:600; margin-bottom:7px}
+.pc-item{display:flex; gap:10px; margin-bottom:7px}
+.pc-mark{flex:0 0 auto; font-size:1rem; line-height:1.3; font-weight:700}
+.pc-text{font-size:.97rem; line-height:1.42; color:var(--ink-soft)}
+
+.bestfor{margin-top:14px; padding:13px 14px; border-radius:10px; background:#fff; border:1px solid var(--hair-card)}
+.bestfor .bl{font-family:var(--mono); font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:5px}
+.bestfor .bt{font-size:1.02rem; line-height:1.45; color:var(--ink)}
+
+/* panel header reuse */
+.panel-head{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:4px}
+
+/* ════════════ METHODOLOGY ════════════ */
+.method{margin-top:26px}
+.methodcard{background:var(--card); border:1px solid var(--hair-card); border-radius:16px; padding:clamp(18px,2.6vw,26px); box-shadow:var(--shadow)}
+.methodcard h2{margin:2px 0 14px; font-family:var(--serif); font-size:clamp(1.3rem,2.4vw,1.6rem); font-weight:560; letter-spacing:-.01em}
+.tier-list{display:flex; flex-direction:column; gap:10px}
+.tier-row{display:flex; gap:11px; align-items:flex-start}
+.tier-row .td{font-size:.97rem; line-height:1.45; color:var(--ink-soft)}
+.method-note{margin-top:14px; padding:13px 14px; border-radius:10px; background:var(--paper-2); border:1px solid var(--hair-card); font-size:.92rem; line-height:1.55; color:var(--muted)}
+.method-fine{margin-top:13px; font-size:.9rem; line-height:1.6; color:var(--muted)}
+.method-stamp{margin-top:13px; font-family:var(--mono); font-size:.64rem; letter-spacing:.04em; color:var(--faint)}
+
+.colophon{padding:24px 0 max(46px, calc(env(safe-area-inset-bottom) + 28px)); text-align:center}
+.colophon p{font-family:var(--mono); font-size:.64rem; letter-spacing:.06em; color:var(--faint); margin:0}
+
+/* ════════════ ACCESS & COST TAB ════════════ */
+.access-lead{max-width:780px; font-size:1.02rem; line-height:1.5; color:var(--ink-soft); margin:0 0 16px}
+.access-lead b{color:var(--ink); font-weight:600}
+
+.reality{display:flex; flex-wrap:wrap; margin:0 0 16px; border:1px solid var(--hair-card); border-radius:13px; background:var(--card); box-shadow:var(--shadow); overflow:hidden}
+.reality .r{flex:1 1 150px; padding:13px 17px; border-right:1px solid var(--hair-card)}
+.reality .r:last-child{border-right:0}
+.reality .rv{font-family:var(--mono); font-size:1.3rem; font-weight:700; line-height:1}
+.reality .rl{font-family:var(--mono); font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin-top:6px}
+
+.newchip{font-family:var(--mono); font-size:.58rem; font-weight:700; letter-spacing:.06em; padding:3px 8px; border-radius:999px; background:var(--glp1-t); border:1px solid #1F5C9E55; color:var(--glp1); white-space:nowrap}
+
+.channel-chip{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:13px; padding:9px 12px; border-radius:10px; background:var(--paper-2); border:1px solid var(--hair-card); font-family:var(--mono); font-size:.7rem; color:var(--muted)}
+.channel-chip strong{color:var(--ink); font-weight:700}
+.channel-chip .dom{color:var(--glp1)}
+.channel-chip .cc-ic{color:var(--avail)}
+.channel-chip .rx{margin-left:auto; display:inline-flex; align-items:center; gap:5px; color:var(--muted); letter-spacing:.03em}
+
+.pricetable{margin-top:14px; border-top:1px solid var(--hair-card)}
+.prow{display:flex; justify-content:space-between; gap:14px; align-items:baseline; padding:10px 0; border-bottom:1px solid var(--hair-card)}
+.prow .pk{font-size:.94rem; line-height:1.3; color:var(--ink-soft)}
+.prow .pk small{display:block; font-family:var(--mono); font-size:.62rem; color:var(--faint); margin-top:3px; letter-spacing:.01em; line-height:1.4}
+.prow .pv{font-family:var(--mono); font-weight:700; font-size:.98rem; color:var(--ink); white-space:nowrap}
+.prow .pv .permo{font-weight:400; font-size:.68rem; color:var(--faint)}
+.prow .pv.hl{color:#247048}
+
+.access-foot{display:flex; align-items:center; gap:9px; margin-top:14px; padding-top:11px; border-top:1px solid var(--hair-card); font-family:var(--mono); font-size:.63rem; color:var(--faint)}
+
+.investig{margin-top:16px; background:var(--card); border:1px solid var(--hair-card); border-left:4px solid var(--invest); border-radius:14px; padding:18px 19px; box-shadow:var(--shadow)}
+.investig .ch, .caveat .ch{font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; font-weight:700; margin-bottom:8px; display:flex; align-items:center; gap:8px}
+.investig p, .caveat p{margin:0; font-size:.97rem; line-height:1.5; color:var(--ink-soft)}
+.investig .dom{color:var(--glp1); font-family:var(--mono)}
+.chiprow{display:flex; flex-wrap:wrap; gap:7px; margin:13px 0 11px}
+.namechip{font-family:var(--mono); font-size:.72rem; padding:5px 11px; border-radius:999px; background:var(--invest-t); border:1px solid #6E83A850; color:var(--ink)}
+.investig-foot{font-family:var(--mono); font-size:.64rem; letter-spacing:.04em; color:var(--muted)}
+
+.caveat{margin-top:16px; background:var(--card); border:1px solid var(--hair-card); border-radius:14px; padding:16px 19px; box-shadow:var(--shadow)}
+
+.verify-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px}
+.verify-col{background:var(--card); border:1px solid var(--hair-card); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow)}
+.verify-col.green{border-top:3px solid var(--avail)}
+.verify-col.red{border-top:3px solid var(--con)}
+.verify-h{font-family:var(--mono); font-size:.66rem; letter-spacing:.09em; text-transform:uppercase; font-weight:700; margin-bottom:11px; display:flex; align-items:center; gap:8px}
+.verify-item{display:flex; gap:10px; margin-bottom:9px}
+.verify-item:last-child{margin-bottom:0}
+.verify-item .vm{flex:0 0 auto; font-weight:700; font-size:1.05rem; line-height:1.2}
+.verify-item .vt{font-size:.95rem; line-height:1.4; color:var(--ink-soft)}
+
+.access-sources{margin-top:16px; padding:13px 15px; border-radius:11px; background:var(--paper-2); border:1px solid var(--hair-card); font-family:var(--mono); font-size:.68rem; line-height:1.65; color:var(--muted)}
+.access-sources b{color:var(--ink-soft)}
+
+/* ── reveal animation ─────────────────────────────────────────── */
+.reveal{opacity:0; transform:translateY(12px)}
+.reveal.in{opacity:1; transform:none; transition:opacity .55s ease, transform .55s cubic-bezier(.2,.7,.2,1)}
+
+/* ── responsive ───────────────────────────────────────────────── */
+@media (max-width:860px){
+  .levergrid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+  .cardgrid{grid-template-columns:1fr}
+  .verify-grid{grid-template-columns:1fr}
+  #viewSeg{overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none}
+  #viewSeg::-webkit-scrollbar{display:none}
+  .seg button{padding:8px 10px; font-size:.66rem; min-height:40px}
+  .toggle{min-height:40px}
+  .detail-toggle{min-height:44px}
+  .channel-chip .rx{margin-left:0}
+  .stat{padding:0 13px}
+  .ticklabel{font-size:20px}
+  .bandlabel{font-size:18px}
+  .maplabel{display:none}
+  .dot.sel .maplabel{display:block}
+  .meta-src{margin-left:0; width:100%; margin-top:2px}
+  .disclaim{display:none}
+}
+@media (max-width:380px){
+  .levergrid{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{scroll-behavior:auto !important}
+}
+html.reduce *{animation:none !important; transition:none !important}
+html.reduce .reveal{opacity:1; transform:none}
+html.reduce .bar-fill{transition:none}
+
+/* ── print: clean reference sheet ─────────────────────────────── */
+@media print{
+  :root{--shadow:none; --shadow-lift:none}
+  body{background:#fff}
+  body::before, .toolbar, .maptip, .detail-toggle, .mapcaption .scrollhint{display:none !important}
+  .masthead{background:#fff; color:#000; border-bottom:2px solid #000}
+  .masthead::before,.crop{display:none}
+  .mast-top .kicker,.lede,.lever .lnote,.stat .sl{color:#333}
+  h1.title,h1.title em,.lede b,.lever .ln,.stat .sv{color:#000}
+  .lever{border-color:#bbb; background:#fff}
+  .card,.panel,.mapcard,.methodcard{break-inside:avoid; box-shadow:none; border-color:#bbb}
+  .detailwrap{grid-template-rows:1fr !important}
+  .cardgrid{grid-template-columns:1fr 1fr}
+  .reveal{opacity:1 !important; transform:none !important}
+  #mapView{display:block !important}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ MASTHEAD ════════════ -->
+<header class="masthead">
+  <span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
+  <div class="wrap mast-inner">
+    <div class="mast-top">
+      <span class="kicker">Receptor Pharmacology · Weight Management</span>
+      <span class="disclaim">Educational reference · not medical advice</span>
+    </div>
+    <h1 class="title">The next-generation <em>weight-loss</em> agents</h1>
+    <p class="lede">Each drug mimics gut and satiety hormones by pulling some combination of <b>four levers</b>. More levers generally means more weight lost — and usually more side effects. Every figure here is sourced to a peer-reviewed trial or a manufacturer&nbsp;/&nbsp;FDA primary release.</p>
+    <div class="levergrid" id="levergrid"></div>
+    <div class="statstrip" id="statstrip"></div>
+  </div>
+</header>
+
+<!-- ════════════ TOOLBAR ════════════ -->
+<div class="toolbar">
+  <div class="wrap toolbar-inner">
+    <div class="seg" id="viewSeg" role="group" aria-label="View">
+      <button data-view="map" aria-pressed="true"><span class="ic">◎</span>Positioning map</button>
+      <button data-view="cards" aria-pressed="false"><span class="ic">▥</span>Detail cards</button>
+      <button data-view="access" aria-pressed="false"><span class="ic">◈</span>Access &amp; cost</button>
+    </div>
+    <div class="tb-spacer"></div>
+    <div id="cardControls">
+      <div class="tb-group">
+        <span class="tb-label">Sort</span>
+        <div class="seg" id="sortSeg" role="group" aria-label="Sort">
+          <button data-sort="efficacy" aria-pressed="true">Efficacy</button>
+          <button data-sort="availability" aria-pressed="false">Availability</button>
+          <button data-sort="mechanism" aria-pressed="false">Mechanism</button>
+        </div>
+      </div>
+      <button class="toggle" id="onlyAvail" aria-pressed="false">
+        <span class="box"></span>Only available now
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ MAIN ════════════ -->
+<main class="wrap">
+  <section id="mapView">
+    <div class="section-eyebrow">Positioning map — stage × efficacy × availability</div>
+    <div class="mapcard">
+      <span class="ic-crop tl"></span><span class="ic-crop tr"></span><span class="ic-crop bl"></span><span class="ic-crop br"></span>
+      <div class="legend" id="mapLegend"></div>
+      <div class="plot-shell">
+        <div class="plot-scroll" id="plotScroll"></div>
+        <div class="maptip" id="maptip"></div>
+      </div>
+      <div class="mapcaption">
+        <b>Up</b> = closer to approval. <b>Right</b> = more weight lost. The green glow marks where high efficacy meets an approved, available drug. Tap or click any point for the full readout.
+      </div>
+    </div>
+    <div id="mapPanel"></div>
+  </section>
+
+  <section id="cardsView" hidden></section>
+
+  <section id="accessView" hidden></section>
+</main>
+
+<!-- ════════════ METHODOLOGY ════════════ -->
+<div class="method wrap">
+  <div class="methodcard">
+    <div class="section-eyebrow" style="margin-bottom:2px">How the numbers were sourced</div>
+    <h2>Source trust tiers</h2>
+    <div class="tier-list" id="tierList"></div>
+    <div class="method-note">
+      Every efficacy figure above traces to Tier&nbsp;1 or Tier&nbsp;2. Consumer aggregators (GoodRx, Healthline) and peptide-vendor&nbsp;/&nbsp;SEO blogs were deliberately excluded as sources for any number — they were where the earlier draft's inflated orforglipron and "data-maturing" MariTide figures came from.
+    </div>
+    <div class="method-fine">
+      One caveat on comparison: trials differ in length (46–104 weeks) and in which estimand they headline (efficacy&nbsp;/&nbsp;per-protocol vs. intent-to-treat), so cross-trial numbers are <b>directional, not head-to-head</b>. Tolerability tags summarize discontinuation and GI data qualitatively. This is an educational reference, not medical advice — these figures come from supervised trials with slow dose titration, and that supervision matters most for the harder-to-tolerate agents.
+    </div>
+    <div class="method-stamp">Verified June 2026 · TRIUMPH-1, REDEFINE-1, SURMOUNT-1, STEP-1, ATTAIN-1, GLORY-1 + NEJM&nbsp;/&nbsp;Lancet Phase&nbsp;2 readouts</div>
+  </div>
+</div>
+
+<footer class="colophon wrap">
+  <p>Receptor pharmacology reference · color reserved for mechanism &amp; availability · magnitude stays graphite</p>
+</footer>
+
+<script>
+"use strict";
+/* ════════════ DATA (faithful to source) ════════════ */
+const A="agonist", X="antagonist";
+
+const MECH={
+  glp1:    {label:"GLP-1",    v:"--glp1",   solid:"#1F5C9E", tint:"rgba(31,92,158,0.12)",  note:"appetite off-switch"},
+  gip:     {label:"GIP",      v:"--gip",    solid:"#1E8F84", tint:"rgba(30,143,132,0.13)", note:"smooths nausea, handles fat"},
+  glucagon:{label:"Glucagon", v:"--gluc",   solid:"#BC7A2A", tint:"rgba(188,122,42,0.14)", note:"burns energy + liver fat"},
+  amylin:  {label:"Amylin",   v:"--amylin", solid:"#7A57A0", tint:"rgba(122,87,160,0.13)", note:"a second fullness signal"},
+};
+const AVAIL={
+  available:       {label:"Available (US)",  dot:"#2E8B57", tint:"rgba(46,139,87,0.12)"},
+  regional:        {label:"China only",      dot:"#C49A3A", tint:"rgba(196,154,58,0.14)"},
+  investigational: {label:"Investigational", dot:"#6E83A8", tint:"rgba(110,131,168,0.12)"},
+};
+const TRUST={
+  1:{label:"T1", full:"Peer-reviewed trial", color:"#2E8B57"},
+  2:{label:"T2", full:"Manufacturer / FDA primary", color:"#2D6FB3"},
+  3:{label:"T3", full:"Medical secondary", color:"#7A8791"},
+};
+const TOL={
+  better:  {label:"Better tolerated", color:"#2E8B57"},
+  moderate:{label:"Moderate",         color:"#C49A3A"},
+  harder:  {label:"Harder to tolerate", color:"#B4532B"},
+};
+const RORDER=["glp1","gip","glucagon","amylin"];
+const MATURITY_LABEL={4:"Approved", 3:"Phase 3", 2:"Phase 2", 1:"Early (1b/2a)"};
+const rCount=a=>RORDER.filter(k=>a.r[k]).length;
+
+const AGENTS=[
+  {name:"Retatrutide", eff:28.3, effLabel:"28.3%",
+   effDetail:"28.3% at 80 wk (12 mg) · 30.3% at 104 wk in BMI ≥35 · 19.0% at the low 4 mg dose",
+   r:{glp1:A, gip:A, glucagon:A, amylin:null},
+   maturity:3, avail:"investigational", route:"weekly injection", tol:"harder",
+   trial:"TRIUMPH-1", n:"2,339", weeks:80, src:"Lilly topline, May 2026", srcTier:2, srcExtra:"Phase 2 in NEJM 2023 (T1)",
+   pros:["Most weight loss of any agent with trial data","Strong liver-fat / metabolic benefit from glucagon","Once-weekly"],
+   cons:["Most side effects in the class","Glucagon can raise heart rate","Not yet approved (NDA targeted Q4 2026); gray-market quality risk"],
+   bestFor:"Maximum loss when you can tolerate a rougher ramp-up — ideally supervised. Best metabolic / liver angle."},
+  {name:"Amycretin", eff:24.3, effLabel:"~24.3%",
+   effDetail:"Up to 24.3% at 36 wk (subcutaneous, high dose) — no plateau observed",
+   r:{glp1:A, gip:null, glucagon:null, amylin:A},
+   maturity:1, avail:"investigational", route:"weekly shot + pill (in dev)", tol:"moderate",
+   trial:"Phase 1b/2a", n:"125", weeks:36, src:"The Lancet, 2025", srcTier:1, srcExtra:"Novo Nordisk",
+   pros:["Up to 24.3% in just 36 weeks, still climbing","Amylin may spare muscle","Oral version in development"],
+   cons:["Only early-phase data so far","Not obtainable","GI side effects typical of the class"],
+   bestFor:"(Future) high efficacy with possibly better muscle retention, or a pill. Phase 3 only began Q1 2026."},
+  {name:"CagriSema", eff:22.7, effLabel:"22.7%",
+   effDetail:"22.7% at 68 wk (efficacy estimand) · 20.4% on the treatment-policy estimand",
+   r:{glp1:A, gip:null, glucagon:null, amylin:A},
+   maturity:3, avail:"investigational", route:"weekly injection", tol:"moderate",
+   trial:"REDEFINE-1", n:"3,417", weeks:68, src:"NEJM, 2025", srcTier:1, srcExtra:"",
+   pros:["Strong, mature Phase 3 data","Two satiety signals (semaglutide + cagrilintide)","Class-typical tolerability"],
+   cons:["Fell short of Novo's 25% target","Two-drug combination","Not yet US-approved"],
+   bestFor:"(Future) high efficacy with a gentler-than-triple-agonist, satiety-driven profile."},
+  {name:"Tirzepatide", eff:22.5, effLabel:"22.5%",
+   effDetail:"22.5% at 72 wk (15 mg) — the landmark SURMOUNT-1 result",
+   r:{glp1:A, gip:A, glucagon:null, amylin:null},
+   maturity:4, avail:"available", route:"weekly injection", tol:"moderate",
+   trial:"SURMOUNT-1", n:"2,539", weeks:72, src:"NEJM, 2022", srcTier:1, srcExtra:"FDA-approved (Zepbound)",
+   sensible:true, tag:"Zepbound / Mounjaro",
+   pros:["Approved and actually available — the big one","Better tolerated than retatrutide","Mountains of safety data; pharmaceutical quality"],
+   cons:["Slightly less loss than retatrutide at the top end","Still some GI","Cost without insurance"],
+   bestFor:"Most people. The best balance of strong efficacy, tolerability, and real availability."},
+  {name:"Eloralintide", eff:20.1, effLabel:"~20%",
+   effDetail:"Up to 20.1% at 48 wk (9 mg) — selective amylin, no GLP-1",
+   r:{glp1:null, gip:null, glucagon:null, amylin:A},
+   maturity:2, avail:"investigational", route:"weekly injection", tol:"moderate",
+   trial:"Phase 2", n:"263", weeks:48, src:"The Lancet, 2025", srcTier:1, srcExtra:"Eli Lilly",
+   pros:["Up to 20% over 48 weeks without any GLP-1","Different mechanism — an option when GLP-1 fails","May preserve muscle"],
+   cons:["Still Phase 2","Less loss than the multi-agonists","Nausea ran as high as ~64% at 6 mg; unavailable"],
+   bestFor:"(Future) people who don't tolerate GLP-1 drugs, or as a combo partner. Emerging."},
+  {name:"Survodutide", eff:18.7, effLabel:"18.7%",
+   effDetail:"18.7% at 46 wk in completers (4.8 mg) · ~15% intent-to-treat — no plateau",
+   r:{glp1:A, gip:null, glucagon:A, amylin:null},
+   maturity:3, avail:"investigational", route:"weekly injection", tol:"harder",
+   trial:"Phase 2", n:"386", weeks:46, src:"Lancet Diab. & Endo., 2024", srcTier:1, srcExtra:"Boehringer / Zealand",
+   pros:["Glucagon-driven fat burning + standout liver (MASH) data","Differentiated mechanism","Weight still falling at 46 wk"],
+   cons:["Less loss than retatrutide / tirzepatide","Glucagon-related GI + heart rate","Approval projected 2027; unavailable"],
+   bestFor:"(Future) people where fatty liver / metabolic health matters as much as the scale."},
+  {name:"MariTide", eff:16.2, effLabel:"~16%",
+   effDetail:"Up to 16.2% (intent-to-treat) / ~20% per-protocol at 52 wk — no plateau",
+   r:{glp1:A, gip:X, glucagon:null, amylin:null},
+   maturity:2, avail:"investigational", route:"monthly injection", tol:"moderate",
+   trial:"Phase 2", n:"592", weeks:52, src:"NEJM, 2025", srcTier:1, srcExtra:"Amgen", tag:"monthly dosing",
+   pros:["Once-monthly — a real adherence leap (21-day half-life)","Novel twist: blocks GIP rather than activating it","No plateau at 52 weeks"],
+   cons:["Still Phase 2 (MARITIME Phase 3 ongoing)","GI common, eased by slow dose escalation","Unavailable"],
+   bestFor:"(Future) people who'd value a monthly shot over weekly injections."},
+  {name:"Semaglutide", eff:14.9, effLabel:"14.9%",
+   effDetail:"14.9% at 68 wk (2.4 mg) — the STEP-1 benchmark the field is measured against",
+   r:{glp1:A, gip:null, glucagon:null, amylin:null},
+   maturity:4, avail:"available", route:"weekly shot + daily pill", tol:"better",
+   trial:"STEP-1", n:"1,961", weeks:68, src:"NEJM, 2021", srcTier:1, srcExtra:"FDA-approved (Wegovy / Ozempic)", tag:"Wegovy / Ozempic",
+   pros:["Massively proven, widely available, longest safety record","Injectable and oral versions","The known quantity"],
+   cons:["Now the floor of modern efficacy — newer agents beat it","GI side effects"],
+   bestFor:"The established, accessible benchmark with the most real-world data."},
+  {name:"Orforglipron", eff:12.4, effLabel:"12.4%",
+   effDetail:"12.4% at 72 wk (36 mg) — modest for the class, but it's a convenient daily pill",
+   r:{glp1:A, gip:null, glucagon:null, amylin:null},
+   maturity:4, avail:"available", route:"daily pill", tol:"moderate",
+   trial:"ATTAIN-1", n:"~3,000", weeks:72, src:"Lilly / FDA, Apr 2026", srcTier:2, srcExtra:"Phase 3 in NEJM (T1)", tag:"Foundayo · oral, non-peptide",
+   pros:["FDA-approved Apr 2026 — a true once-daily pill","No food or water restriction; small molecule, cheaper to make","From $25/mo with coverage"],
+   cons:["Less loss than injectables (~12.4%)","GI side effects typical of GLP-1s","Best paired with diet + activity"],
+   bestFor:"People who want a pill and will trade some efficacy for not injecting."},
+  {name:"Mazdutide", eff:14.8, effLabel:"14.8%",
+   effDetail:"14.8% at 48 wk (6 mg) in the GLORY-1 Chinese trial",
+   r:{glp1:A, gip:null, glucagon:A, amylin:null},
+   maturity:4, avail:"regional", route:"weekly injection", tol:"moderate",
+   trial:"GLORY-1", n:"~610", weeks:48, src:"Innovent / Lilly, 2025", srcTier:3, srcExtra:"Approved in China", tag:"China-approved",
+   pros:["First dual glucagon/GLP-1 approved anywhere","Waist + liver-fat reductions","The metabolic 'burn' angle"],
+   cons:["More modest loss","China-only right now","Glucagon-related side effects"],
+   bestFor:"(Where available) weight plus liver / metabolic focus."},
+];
+
+/* map label placement (top/bottom + vertical nudge to de-overlap) */
+const LBL={
+  Retatrutide:{dir:"top"}, CagriSema:{dir:"bottom"}, Survodutide:{dir:"bottom"},
+  Tirzepatide:{dir:"top"}, Semaglutide:{dir:"bottom", ny:16}, Orforglipron:{dir:"bottom"},
+  Mazdutide:{dir:"top", ny:-16}, Eloralintide:{dir:"top"}, MariTide:{dir:"top"}, Amycretin:{dir:"top"},
+};
+
+/* ════════════ STATE ════════════ */
+const state={ view:"map", sort:"efficacy", onlyAvail:false, sel:"Tirzepatide", reduce:false };
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const pad2=n=>String(n).padStart(2,"0");
+
+/* ════════════ ATOMS ════════════ */
+function availBadge(k){
+  const v=AVAIL[k];
+  return `<span class="availbadge" style="background:${v.tint};border-color:${v.dot}55">
+    <span class="ab-dot" style="background:${v.dot}"></span>${v.label}</span>`;
+}
+function trustBadge(t,sm){
+  const v=TRUST[t];
+  return `<span class="trustbadge${sm?" sm":""}" title="${esc(v.full)}" style="color:${v.color};background:${v.color}1A;border-color:${v.color}55">${v.label}</span>`;
+}
+function leverCell(k,mode){
+  const m=MECH[k], on=mode!=null, blocks=mode===X, agon=mode===A;
+  const cellStyle=on?`background:${m.tint};border-color:${m.solid}33;border-left-color:${m.solid}`:"";
+  let dotStyle;
+  if(agon) dotStyle=`background:${m.solid};border:none`;
+  else if(blocks) dotStyle=`background:transparent;border:2px solid ${m.solid}`;
+  else dotStyle=`background:transparent;border:1.5px solid var(--faint)`;
+  return `<div class="lvl${on?" on":""}" style="${cellStyle}">
+    <span class="lvdot" style="${dotStyle}"></span>
+    <span class="lvname${blocks?" struck":""}" style="${blocks?`text-decoration-color:${m.solid}`:""}">${m.label}</span>
+    ${blocks?`<span class="lvblock" style="color:${m.solid}">BLOCKS</span>`:""}
+  </div>`;
+}
+function effBar(a){
+  const mlabel=a.effLabel.match(/^([^\d]*)([\d.]+)(.*)$/);
+  const prefix=mlabel?mlabel[1]:"", numStr=mlabel?mlabel[2]:String(a.eff), suffix=mlabel?mlabel[3]:"%";
+  const dec=numStr.indexOf(".")>=0?1:0;
+  const w=(a.eff/30*100).toFixed(2);
+  return `<div class="effbar io" data-w="${w}">
+    <div class="effbar-top">
+      <span class="effbar-cap">Peak weight loss</span>
+      <span class="bar-num tnum" data-num="${numStr}" data-prefix="${prefix}" data-suffix="${esc(suffix)}" data-dec="${dec}">${prefix}0${esc(suffix)}</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill"></div></div>
+  </div>`;
+}
+function meta(l,v){ return `<div class="meta"><div class="ml">${l}</div><div class="mv">${esc(v)}</div></div>`; }
+
+function provenance(a){
+  const t=TOL[a.tol];
+  return `<div class="provenance">
+    <div class="prov-top">${trustBadge(a.srcTier)}
+      <span class="prov-src">${esc(a.src)}</span>
+      ${a.srcExtra?`<span class="prov-extra">· ${esc(a.srcExtra)}</span>`:""}
+    </div>
+    <div class="prov-trial">${esc(a.trial)} · n=${esc(a.n)} · ${a.weeks} wk</div>
+    <div class="prov-detail">${esc(a.effDetail)}</div>
+    <div class="prov-tol">
+      <span class="td" style="background:${t.color}"></span>
+      <span class="tl">Tolerability</span>
+      <span class="tv" style="color:${t.color}">${t.label}</span>
+    </div>
+  </div>`;
+}
+function prosCons(title,color,mark,items){
+  return `<div class="pc">
+    <div class="pc-title" style="color:${color}">${title}</div>
+    ${items.map(t=>`<div class="pc-item"><span class="pc-mark" style="color:${color}">${mark}</span><span class="pc-text">${esc(t)}</span></div>`).join("")}
+  </div>`;
+}
+function detail(a){
+  return `<div class="rule"></div>
+    ${provenance(a)}
+    ${prosCons("PROS","var(--pro)","+",a.pros)}
+    ${prosCons("CONS","var(--con)","–",a.cons)}
+    <div class="bestfor"><div class="bl">Best suited for</div><div class="bt">${esc(a.bestFor)}</div></div>`;
+}
+
+/* ════════════ CARDS ════════════ */
+function cardHTML(a,rank,i){
+  return `<article class="card reveal io${a.sensible?" sensible":""}" data-name="${esc(a.name)}" style="transition-delay:${i*45}ms">
+    <div class="card-body">
+      <div class="card-head">
+        <div class="card-id">
+          ${rank!=null?`<span class="rank tnum">${pad2(rank)}</span>`:""}
+          <div>
+            <h3 class="name">${esc(a.name)}</h3>
+            ${a.tag?`<div class="tag">${esc(a.tag)}</div>`:""}
+          </div>
+        </div>
+        ${availBadge(a.avail)}
+      </div>
+      ${a.sensible?`<div class="sensible-flag">◆ SENSIBLE DEFAULT — POTENT · TOLERABLE · ACTUALLY AVAILABLE</div>`:""}
+      <div class="levercells">${RORDER.map(k=>leverCell(k,a.r[k])).join("")}</div>
+      ${effBar(a)}
+      <div class="meta-row">
+        ${meta("STAGE",MATURITY_LABEL[a.maturity])}
+        ${meta("ROUTE",a.route)}
+        ${meta("LEVERS",rCount(a)+" engaged")}
+        <div class="meta-src">${trustBadge(a.srcTier,true)}<span class="trial">${esc(a.trial)}</span></div>
+      </div>
+      <button class="detail-toggle" aria-expanded="false">
+        <span class="dt-label">SOURCE · PROS · CONS · BEST FOR</span><span class="chev">▾</span>
+      </button>
+    </div>
+    <div class="detailwrap"><div class="detailwrap-inner"><div class="detail">${detail(a)}</div></div></div>
+  </article>`;
+}
+function sortedList(){
+  let arr=AGENTS.filter(a=>state.onlyAvail?a.avail==="available":true);
+  const ar={available:0,regional:1,investigational:2};
+  if(state.sort==="efficacy")     arr=arr.slice().sort((a,b)=>b.eff-a.eff);
+  if(state.sort==="availability")  arr=arr.slice().sort((a,b)=>ar[a.avail]-ar[b.avail]||b.eff-a.eff);
+  if(state.sort==="mechanism")     arr=arr.slice().sort((a,b)=>rCount(b)-rCount(a)||b.eff-a.eff);
+  return arr;
+}
+function renderCards(){
+  const list=sortedList();
+  const ranked=(state.sort==="efficacy"&&!state.onlyAvail);
+  const note=state.onlyAvail?`<div class="filter-note">The practical reality: three are FDA-approved (two injectables + the new oral pill), with <b>mazdutide approved only in China</b>. Of the obtainable options, <b>tirzepatide</b> is the most potent.</div>`:"";
+  $("#cardsView").innerHTML=`<div class="section-eyebrow">Detail cards — ${list.length} agent${list.length!==1?"s":""}, sorted by ${state.sort}</div>${note}<div class="cardgrid">${list.map((a,i)=>cardHTML(a, ranked?i+1:null, i)).join("")}</div>`;
+  observeNew($("#cardsView"));
+}
+
+/* ════════════ MAP (SVG) ════════════ */
+const VBW=1000, XMIN=10, XMAX=30, XTICKS=[15,20,25,30];
+function geom(){
+  const compact=window.innerWidth<640;
+  const VB={w:VBW, h:compact?770:560};
+  const M=compact?{l:118,r:40,t:60,b:108}:{l:120,r:48,t:46,b:78};
+  const PL={x0:M.l, x1:VB.w-M.r, y0:M.t, y1:VB.h-M.b};
+  const ph=PL.y1-PL.y0, fr={4:.165, 3:.44, 2:.69, 1:.917};
+  const BANDY={4:PL.y0+fr[4]*ph, 3:PL.y0+fr[3]*ph, 2:PL.y0+fr[2]*ph, 1:PL.y0+fr[1]*ph};
+  const BAND_SEP=[(BANDY[4]+BANDY[3])/2, (BANDY[3]+BANDY[2])/2, (BANDY[2]+BANDY[1])/2];
+  return {compact,VB,PL,BANDY,BAND_SEP};
+}
+function buildSVG(){
+  const {compact,VB,PL,BANDY,BAND_SEP}=geom();
+  const xPos=v=>PL.x0+(v-XMIN)/(XMAX-XMIN)*(PL.x1-PL.x0);
+  let s=`<svg class="plot${compact?" cmp":""}${(!mapAnimated&&!state.reduce)?" anim":""}" viewBox="0 0 ${VB.w} ${VB.h}" role="group" aria-label="Positioning map of weight-loss agents by development stage and peak weight loss">
+    <defs>
+      <radialGradient id="sweet" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="rgba(46,139,87,0.20)"/>
+        <stop offset="60%" stop-color="rgba(46,139,87,0.07)"/>
+        <stop offset="100%" stop-color="rgba(46,139,87,0)"/>
+      </radialGradient>
+    </defs>`;
+
+  /* sweet-spot glow: high efficacy × approved */
+  s+=`<ellipse cx="${xPos(23)}" cy="${BANDY[4]}" rx="${compact?150:168}" ry="${compact?96:84}" fill="url(#sweet)"/>`;
+
+  /* band separators */
+  BAND_SEP.forEach(y=>{ s+=`<line class="bandline" x1="${PL.x0}" y1="${y}" x2="${PL.x1}" y2="${y}"/>`; });
+
+  /* x grid + ticks */
+  XTICKS.forEach(t=>{
+    s+=`<line class="tickv" x1="${xPos(t)}" y1="${PL.y0}" x2="${xPos(t)}" y2="${PL.y1}"/>`;
+    s+=`<text class="ticklabel" x="${xPos(t)}" y="${PL.y1+(compact?36:26)}" text-anchor="middle">${t}%</text>`;
+  });
+  s+=`<line class="axisbase" x1="${PL.x0}" y1="${PL.y1}" x2="${PL.x1}" y2="${PL.y1}"/>`;
+
+  /* band (maturity) labels */
+  [4,3,2,1].forEach(b=>{
+    const words=MATURITY_LABEL[b].toUpperCase().split(" ");
+    const tx=compact?14:18, ty=BANDY[b];
+    s+=`<text class="bandlabel${b===4?" appr":""}" x="${tx}" y="${ty}" dominant-baseline="middle">`;
+    if(words.length===1){ s+=esc(words[0]); }
+    else { s+=`<tspan x="${tx}" dy="-0.55em">${esc(words[0])}</tspan><tspan x="${tx}" dy="1.15em">${esc(words.slice(1).join(" "))}</tspan>`; }
+    s+=`</text>`;
+  });
+
+  /* axis titles */
+  s+=`<text class="axistitle" x="${(PL.x0+PL.x1)/2}" y="${VB.h-14}" text-anchor="middle">PEAK WEIGHT LOSS  →</text>`;
+  s+=`<text class="axistitle" x="${PL.x0}" y="${compact?32:26}" text-anchor="start">↑ DEVELOPMENT STAGE</text>`;
+
+  /* dots */
+  AGENTS.forEach((a,i)=>{
+    const cfg=LBL[a.name]||{dir:"top"};
+    const cx=xPos(a.eff), cy=BANDY[a.maturity]+((cfg.ny||0)*(compact?1.35:1)), dir=cfg.dir||"top";
+    const v=AVAIL[a.avail], isSel=state.sel===a.name;
+    const ly = dir==="bottom" ? cy+(compact?38:26) : cy-(compact?29:19);
+    const delay=(state.reduce?0:i*45);
+    s+=`<g class="dot${isSel?" sel":""}" data-name="${esc(a.name)}" data-cx="${cx.toFixed(1)}" data-cy="${cy.toFixed(1)}" tabindex="0" role="button" aria-label="${esc(a.name)}, ${a.effLabel} peak loss, ${MATURITY_LABEL[a.maturity]}, ${AVAIL[a.avail].label}" style="animation-delay:${delay}ms">
+      <circle class="hit" cx="${cx}" cy="${cy}" r="${compact?42:26}"/>
+      <circle class="selring" cx="${cx}" cy="${cy}" r="${compact?25:18}" fill="${v.dot}" opacity="0.16"/>
+      <circle class="pt" cx="${cx}" cy="${cy}" fill="${v.dot}"/>
+      <text class="maplabel" x="${cx}" y="${ly}" text-anchor="middle">${esc(a.name)}</text>
+    </g>`;
+  });
+
+  s+=`</svg>`;
+  return s;
+}
+function panelHTML(a){
+  return `<div class="panel${a.sensible?" sensible":""}">
+    <div class="panel-body">
+      <div class="panel-head">
+        <div>
+          <h3 class="name">${esc(a.name)}</h3>
+          ${a.tag?`<div class="tag">${esc(a.tag)}</div>`:""}
+        </div>
+        ${availBadge(a.avail)}
+      </div>
+      ${a.sensible?`<div class="sensible-flag">◆ SENSIBLE DEFAULT — POTENT · TOLERABLE · ACTUALLY AVAILABLE</div>`:""}
+      <div class="levercells">${RORDER.map(k=>leverCell(k,a.r[k])).join("")}</div>
+      ${effBar(a)}
+      <div class="meta-row">
+        ${meta("STAGE",MATURITY_LABEL[a.maturity])}
+        ${meta("ROUTE",a.route)}
+        ${meta("LEVERS",rCount(a)+" engaged")}
+        <div class="meta-src">${trustBadge(a.srcTier,true)}<span class="trial">${esc(a.trial)}</span></div>
+      </div>
+      <div class="detail" style="padding-left:0;padding-right:0;padding-bottom:2px">${detail(a)}</div>
+    </div>
+  </div>`;
+}
+let lastCompact=null, mapAnimated=false;
+function renderMap(){
+  lastCompact=window.innerWidth<640;
+  $("#plotScroll").innerHTML=buildSVG();
+  mapAnimated=true;            // entrance animation plays once, not on every re-select
+  wireDots();
+  renderPanel();
+}
+function renderPanel(){
+  const a=AGENTS.find(x=>x.name===state.sel)||AGENTS[0];
+  const host=$("#mapPanel");
+  host.innerHTML=panelHTML(a);
+  // activate bar immediately (panel is in view)
+  host.querySelectorAll(".effbar").forEach(activateBar);
+}
+
+/* tooltip + selection wiring */
+const hoverCapable = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+function wireDots(){
+  const svg=$("#plotScroll svg"), tip=$("#maptip"), shell=$("#plotScroll");
+  $("#plotScroll").querySelectorAll(".dot").forEach(g=>{
+    const name=g.getAttribute("data-name");
+    const select=()=>{ state.sel=name; renderMap();
+      if(!hoverCapable){ const p=$("#mapPanel"); if(p) p.scrollIntoView({behavior: state.reduce?"auto":"smooth", block:"nearest"}); } };
+    g.addEventListener("click",select);
+    g.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); select(); } });
+    if(hoverCapable){
+      g.addEventListener("mouseenter",()=>showTip(g));
+      g.addEventListener("mouseleave",()=>tip.classList.remove("show"));
+      g.addEventListener("focus",()=>showTip(g));
+      g.addEventListener("blur",()=>tip.classList.remove("show"));
+    }
+  });
+  function showTip(g){
+    const a=AGENTS.find(x=>x.name===g.getAttribute("data-name")); if(!a)return;
+    const cx=+g.getAttribute("data-cx"), cy=+g.getAttribute("data-cy");
+    const ratio=svg.clientWidth/VBW;
+    const v=AVAIL[a.avail];
+    tip.innerHTML=`<div class="mt-name">${esc(a.name)}</div>
+      <div class="mt-row"><span style="width:7px;height:7px;border-radius:50%;background:${v.dot};display:inline-block"></span>${v.label} · ${MATURITY_LABEL[a.maturity]}</div>
+      <div class="mt-row">${esc(a.route)} · ${rCount(a)} lever${rCount(a)!==1?"s":""}</div>
+      <div class="mt-eff">${a.effLabel} <span style="color:#9DB6AE;font-weight:400">peak loss</span></div>`;
+    let left=cx*ratio, top=cy*ratio;
+    left=Math.max(86, Math.min(shell.clientWidth-86, left));
+    tip.style.left=left+"px"; tip.style.top=top+"px";
+    tip.classList.add("show");
+  }
+}
+
+/* ════════════ ANIMATION / OBSERVER ════════════ */
+function fmtNum(v,dec){ return dec>0 ? v.toFixed(dec) : Math.round(v).toString(); }
+function countUp(el){
+  const target=parseFloat(el.dataset.num), prefix=el.dataset.prefix||"", suffix=el.dataset.suffix||"", dec=+el.dataset.dec;
+  if(state.reduce){ el.textContent=prefix+fmtNum(target,dec)+suffix; return; }
+  const dur=900; let start=null;
+  function step(ts){
+    if(start==null)start=ts;
+    const p=Math.min(1,(ts-start)/dur), e=1-Math.pow(1-p,3);
+    el.textContent=prefix+fmtNum(target*e,dec)+suffix;
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function activateBar(bar){
+  if(bar.dataset.done)return; bar.dataset.done="1";
+  const fill=bar.querySelector(".bar-fill"); if(fill)fill.style.width=bar.dataset.w+"%";
+  const num=bar.querySelector(".bar-num"); if(num)countUp(num);
+}
+let io;
+function setupObserver(){
+  io=new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(!en.isIntersecting)return;
+      const el=en.target;
+      el.classList.add("in");
+      if(el.classList.contains("effbar"))activateBar(el);
+      io.unobserve(el);
+    });
+  },{threshold:0.18, rootMargin:"0px 0px -8% 0px"});
+}
+function observeNew(scope){
+  scope.querySelectorAll(".io:not(.in)").forEach(el=>{
+    if(state.reduce){ el.classList.add("in"); if(el.classList.contains("effbar"))activateBar(el); }
+    else io.observe(el);
+  });
+}
+
+/* ════════════ STATIC FILLERS ════════════ */
+function renderStatics(){
+  // four levers
+  $("#levergrid").innerHTML=RORDER.map(k=>{
+    const m=MECH[k];
+    return `<div class="lever" style="--lc:${m.solid}">
+      <div class="lh"><span class="ld"></span><span class="ln">${m.label}</span></div>
+      <div class="lnote">${esc(m.note)}</div>
+    </div>`;
+  }).join("");
+
+  // stat strip
+  const availCount=AGENTS.filter(a=>a.avail==="available").length;
+  const peak=AGENTS.reduce((m,a)=>Math.max(m,a.eff),0);
+  const stats=[
+    {v:String(AGENTS.length), l:"agents mapped"},
+    {v:String(availCount), l:"FDA-approved (US)", green:true},
+    {v:peak.toFixed(1)+"%", l:"peak weight loss"},
+    {v:"T1–T2", l:"every figure sourced"},
+  ];
+  $("#statstrip").innerHTML=stats.map(s=>`<div class="stat"><span class="sv tnum${s.green?" green":""}">${s.v}</span><span class="sl">${s.l}</span></div>`).join("");
+
+  // map legend
+  $("#mapLegend").innerHTML=Object.values(AVAIL).map(v=>
+    `<div class="legitem"><span class="ld" style="background:${v.dot}"></span>${v.label}</div>`).join("");
+
+  // tier list
+  const tiers=[
+    {t:1,d:"Peer-reviewed trial publication — NEJM, The Lancet, JAMA. The gold standard."},
+    {t:2,d:"Manufacturer topline or FDA approval document. Primary, but not yet peer-reviewed and lightly framed."},
+    {t:3,d:"Medical-professional secondary reporting — used only to corroborate, never as the sole source."},
+  ];
+  $("#tierList").innerHTML=tiers.map(({t,d})=>`<div class="tier-row">${trustBadge(t)}<span class="td">${esc(d)}</span></div>`).join("");
+}
+
+/* ════════════ ACCESS & COST (legitimate channels only) ════════════ */
+const ACCESS_AVAIL=[
+  {name:"Tirzepatide", brand:"Zepbound · Mounjaro", maker:"Eli Lilly",
+   channel:"LillyDirect", url:"lilly.com/lillydirect", rx:"Rx required",
+   rows:[
+     {k:"Self-pay vials — LillyDirect", s:"2.5mg $299 · 5mg $399 · 7.5–15mg $449 (refill ≤45 days)", v:"$299–449", hl:true},
+     {k:"With commercial insurance + savings card", s:"eligible commercially-insured patients", v:"as low as $25"},
+     {k:"Retail pen, no insurance (list)", s:"same list price at every dose", v:"$1,086"},
+   ]},
+  {name:"Semaglutide", brand:"Wegovy · Ozempic", maker:"Novo Nordisk",
+   channel:"NovoCare Pharmacy", url:"novocare.com", rx:"Rx required",
+   rows:[
+     {k:"Intro self-pay — new patients", s:"0.25 & 0.5mg · 2 fills · through Jun 30 2026", v:"$199", hl:true},
+     {k:"Standard self-pay — NovoCare", s:"0.25–2.4mg · HD 7.2mg $399 · 1.5 & 4mg $149", v:"$349"},
+     {k:"With commercial insurance + savings", s:"eligible commercially-insured", v:"$0–$25"},
+     {k:"Retail, no insurance (list)", s:"injectable + oral pill versions", v:"$1,349"},
+   ]},
+  {name:"Orforglipron", brand:"Foundayo · oral once-daily", maker:"Eli Lilly", isNew:true,
+   channel:"LillyDirect → retail & telehealth", url:"lilly.com/lillydirect", rx:"Rx required",
+   rows:[
+     {k:"Self-pay — LillyDirect", s:"lowest dose", v:"from $149", hl:true},
+     {k:"With commercial insurance + savings card", s:"eligible commercially-insured", v:"as little as $25"},
+     {k:"Medicare Part D", s:"eligible patients · from Jul 1 2026", v:"$50"},
+   ]},
+];
+const VERIFY_GREEN=[
+  "Requires a valid prescription from a licensed clinician",
+  "Appears in the NABP Safe Site Search Tool, or uses a verified .pharmacy domain",
+  "LegitScript-certified and licensed in your U.S. state",
+  "A licensed pharmacist is reachable for questions",
+];
+const VERIFY_RED=[
+  "No prescription required — 96% of illegal online pharmacies skip this step",
+  "Sells “research peptides,” or labels the product “not for human consumption”",
+  "Crypto- or wire-only payment; no verifiable U.S. address or pharmacy license",
+  "Prices far below the manufacturer programs; ships from unregulated overseas sources",
+];
+function accessCard(a){
+  return `<article class="card reveal io">
+    <div class="card-body">
+      <div class="card-head">
+        <div class="card-id"><div>
+          <h3 class="name">${esc(a.name)}</h3>
+          <div class="tag">${esc(a.brand)} · ${esc(a.maker)}</div>
+        </div></div>
+        <div style="display:flex; gap:7px; align-items:center; flex-wrap:wrap; justify-content:flex-end">
+          ${a.isNew?`<span class="newchip">NEW · APR 2026</span>`:""}
+          ${availBadge("available")}
+        </div>
+      </div>
+      <div class="channel-chip">
+        <span class="cc-ic">◷</span>Channel: <strong>${esc(a.channel)}</strong><span class="dom">${esc(a.url)}</span>
+        <span class="rx">⊕ ${esc(a.rx)}</span>
+      </div>
+      <div class="pricetable">
+        ${a.rows.map(r=>`<div class="prow"><div class="pk">${esc(r.k)}${r.s?`<small>${esc(r.s)}</small>`:""}</div><div class="pv${r.hl?" hl":""}">${esc(r.v)} <span class="permo">/mo</span></div></div>`).join("")}
+      </div>
+      <div class="access-foot">${trustBadge(2,true)}<span>Manufacturer-program pricing · verified Jun 2026 · confirm directly</span></div>
+    </div>
+  </article>`;
+}
+function renderAccess(){
+  const inv=["Retatrutide","Amycretin","CagriSema","Eloralintide","Survodutide","MariTide"];
+  $("#accessView").innerHTML=`
+    <div class="section-eyebrow">Access &amp; cost — legitimate U.S. channels, verified June 2026</div>
+    <p class="access-lead">Only the FDA-approved drugs can be obtained legally in the U.S., and only with a prescription through a licensed pharmacy. Below are the <b>manufacturer-direct</b> channels and approximate self-pay, insured and list prices for the three that are actually available — plus how to tell a licensed pharmacy from a gray-market one. Prices change constantly; confirm directly with the pharmacy and a clinician. <b>This is consumer-access information, not medical advice or an endorsement of any seller.</b></p>
+
+    <div class="reality">
+      <div class="r"><div class="rv" style="color:#2E8B57">3</div><div class="rl">Obtainable in the U.S. · Rx</div></div>
+      <div class="r"><div class="rv" style="color:#C49A3A">1</div><div class="rl">Approved abroad only · China</div></div>
+      <div class="r"><div class="rv" style="color:#6E83A8">6</div><div class="rl">Trial-only · not for sale</div></div>
+    </div>
+
+    <div class="cardgrid">${ACCESS_AVAIL.map(accessCard).join("")}</div>
+
+    <div class="caveat reveal io" style="background:var(--regional-t); border-color:#C49A3A66">
+      <div class="ch" style="color:#8a6d1f">⬡ Approved abroad only — Mazdutide</div>
+      <p>Mazdutide is approved <b>in China only</b> (Innovent&nbsp;/&nbsp;Lilly). There is no legitimate U.S. distribution channel; it cannot be lawfully prescribed or dispensed in the United States, and any U.S. seller offering it is operating outside the regulated supply chain.</p>
+    </div>
+
+    <div class="investig reveal io">
+      <div class="ch" style="color:#46587a">▟ Not obtainable at any price — the six investigational agents</div>
+      <p>These are <b>not FDA-approved</b>. The only lawful way to receive them is by enrolling in a clinical trial. Anything online claiming to sell them is gray-market research-chemical supply — unapproved, unverified for sterility, potency or identity, with no human safety data outside a trial. That is the exact “gray-market quality risk” the efficacy tab flags.</p>
+      <div class="chiprow">${inv.map(n=>`<span class="namechip">${esc(n)}</span>`).join("")}</div>
+      <div class="investig-foot">Trial enrollment only · search <span class="dom">ClinicalTrials.gov</span></div>
+    </div>
+
+    <div class="verify-grid">
+      <div class="verify-col green reveal io">
+        <div class="verify-h" style="color:#247048">✓ Signs of a legitimate pharmacy</div>
+        ${VERIFY_GREEN.map(t=>`<div class="verify-item"><span class="vm" style="color:#2E8B57">+</span><span class="vt">${esc(t)}</span></div>`).join("")}
+      </div>
+      <div class="verify-col red reveal io">
+        <div class="verify-h" style="color:#9c3f1f">✕ Gray-market red flags</div>
+        ${VERIFY_RED.map(t=>`<div class="verify-item"><span class="vm" style="color:#B4532B">–</span><span class="vt">${esc(t)}</span></div>`).join("")}
+      </div>
+    </div>
+
+    <div class="caveat reveal io">
+      <div class="ch" style="color:var(--muted)">◔ The compounded-GLP-1 caveat</div>
+      <p>Mass-marketed “compounded semaglutide&nbsp;/&nbsp;tirzepatide” has largely lost its legal footing. The FDA declared the tirzepatide (Dec 2024) and semaglutide (Feb 2025) shortages resolved, and the windows to compound copies closed in spring 2025 (down to 503A pharmacies by Apr&nbsp;22&nbsp;2025 for semaglutide). Once a drug is no longer in shortage, compounding “essentially a copy” isn’t permitted, and the FDA has moved to keep these off the 503B bulks list — leaving only narrow, patient-specific medical exceptions, not mass online sales.</p>
+    </div>
+
+    <div class="access-sources">
+      <b>Verify &amp; sources —</b> NABP Safe Site Search (safe.pharmacy) · FDA BeSafeRx · LegitScript · LillyDirect (lilly.com/lillydirect) · NovoCare (novocare.com) · ClinicalTrials.gov. Prices are approximate U.S. figures gathered June 2026 from manufacturer programs and FDA&nbsp;/&nbsp;NABP guidance; programs, eligibility and prices change without notice and vary by dose, insurance and pharmacy. Not medical advice.
+    </div>`;
+  observeNew($("#accessView"));
+}
+
+/* ════════════ CONTROLS ════════════ */
+function setView(v){
+  state.view=v;
+  $("#viewSeg").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.view===v)));
+  $("#mapView").hidden = v!=="map";
+  $("#cardsView").hidden = v!=="cards";
+  $("#accessView").hidden = v!=="access";
+  $("#cardControls").style.display = v==="cards" ? "flex" : "none";
+}
+function wireControls(){
+  $("#viewSeg").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b)setView(b.dataset.view); });
+  $("#sortSeg").addEventListener("click",e=>{
+    const b=e.target.closest("button"); if(!b)return;
+    state.sort=b.dataset.sort;
+    $("#sortSeg").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+    renderCards();
+  });
+  $("#onlyAvail").addEventListener("click",()=>{
+    state.onlyAvail=!state.onlyAvail;
+    $("#onlyAvail").setAttribute("aria-pressed",String(state.onlyAvail));
+    $("#onlyAvail").querySelector(".box").textContent=state.onlyAvail?"✓":"";
+    renderCards();
+  });
+  // expand/collapse (event delegation)
+  $("#cardsView").addEventListener("click",e=>{
+    const btn=e.target.closest(".detail-toggle"); if(!btn)return;
+    const card=btn.closest(".card"); const open=card.classList.toggle("open");
+    btn.setAttribute("aria-expanded",String(open));
+    btn.querySelector(".dt-label").textContent=open?"HIDE DETAIL":"SOURCE · PROS · CONS · BEST FOR";
+  });
+}
+
+/* ════════════ INIT ════════════ */
+function init(){
+  const mq=window.matchMedia("(prefers-reduced-motion: reduce)");
+  state.reduce=mq.matches;
+  document.documentElement.classList.toggle("reduce",state.reduce);
+  mq.addEventListener&&mq.addEventListener("change",e=>{
+    state.reduce=e.matches; document.documentElement.classList.toggle("reduce",e.matches);
+  });
+
+  setupObserver();
+  renderStatics();
+  renderMap();
+  renderCards();
+  renderAccess();
+  wireControls();
+  setView("map");
+  observeNew(document); // masthead reveals etc. (none flagged, but safe)
+
+  // re-render map only when crossing the phone breakpoint (avoids thrash)
+  let rt;
+  window.addEventListener("resize",()=>{
+    clearTimeout(rt);
+    rt=setTimeout(()=>{ if((window.innerWidth<640)!==lastCompact) renderMap(); },180);
+  });
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init);
+else init();
+</script>
+</body>
+</html>
