@@ -59,7 +59,11 @@
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  margin:0; background:var(--paper); color:var(--ink);
+  margin:0; color:var(--ink);
+  background:
+    radial-gradient(100% 54% at 50% 0%, rgba(46,139,87,.06), transparent 55%),
+    radial-gradient(72% 44% at 100% 1%, rgba(45,111,179,.045), transparent 52%),
+    var(--paper);
   font-family:var(--serif); font-optical-sizing:auto;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
   line-height:1.5; overflow-x:hidden;
@@ -98,10 +102,12 @@ button, .toggle{touch-action:manipulation; -webkit-user-select:none; user-select
 
 /* ════════════ MASTHEAD — dark instrument panel ════════════ */
 .masthead{
+  position:relative;
   background:
-    radial-gradient(140% 120% at 88% -10%, rgba(46,139,87,.16), transparent 60%),
-    radial-gradient(120% 120% at -5% 0%, rgba(45,111,179,.16), transparent 55%),
-    var(--panel);
+    radial-gradient(125% 135% at 84% -22%, rgba(46,139,87,.24), transparent 56%),
+    radial-gradient(120% 120% at -8% -12%, rgba(45,111,179,.21), transparent 56%),
+    radial-gradient(95% 80% at 52% 135%, rgba(122,87,159,.16), transparent 60%),
+    linear-gradient(180deg, #181D20, var(--panel) 62%);
   color:#EAF0EE; overflow:hidden;
   border-bottom:1px solid #0c0f10;
 }
@@ -129,8 +135,8 @@ button, .toggle{touch-action:manipulation; -webkit-user-select:none; user-select
   color:#9DB6AE; border:1px solid rgba(234,240,238,.18); border-radius:999px; padding:4px 11px; white-space:nowrap;
 }
 h1.title{
-  margin:18px 0 0; font-weight:430; letter-spacing:-.012em; line-height:1.02;
-  font-size:clamp(2rem,5.6vw,3.5rem); font-optical-sizing:auto;
+  margin:20px 0 0; font-weight:445; letter-spacing:-.02em; line-height:1.0;
+  font-size:clamp(2.35rem,6.6vw,4.15rem); font-optical-sizing:auto;
 }
 h1.title em{font-style:italic; color:#bfe6d2; font-weight:430}
 .lede{
@@ -172,6 +178,35 @@ h1.title em{font-style:italic; color:#bfe6d2; font-weight:430}
   border-bottom:1px solid var(--hair);
 }
 .toolbar-inner{display:flex; align-items:center; gap:14px 18px; flex-wrap:wrap; padding:11px 0}
+
+/* ── hero grain + depth ─────────────────────────────────────────── */
+.masthead::after{
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:0; opacity:.42;
+  mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
+.mast-inner{z-index:1}
+.crop{z-index:2}
+.lever{transition:transform .22s cubic-bezier(.2,.7,.2,1), border-color .22s, background .22s}
+.lever:hover{transform:translateY(-2px); background:rgba(255,255,255,.07)}
+
+/* ── sticky app-bar: brand mark reveals after the hero scrolls away ─ */
+.mast-sentinel{height:1px; margin-top:-1px; pointer-events:none}
+.tb-brand{display:flex; align-items:center; gap:9px; max-width:0; overflow:hidden; opacity:0;
+  transform:translateX(-6px); transition:max-width .42s cubic-bezier(.2,.7,.2,1), opacity .3s ease, transform .3s ease;
+  text-decoration:none; white-space:nowrap; flex:0 0 auto}
+.toolbar.scrolled .tb-brand{max-width:300px; opacity:1; transform:none; margin-right:2px}
+.tb-mark{display:grid; grid-template-columns:repeat(2,7px); grid-auto-rows:7px; gap:3px; flex:0 0 auto}
+.tb-mark i{width:7px; height:7px; border-radius:50%}
+.tb-mark i:nth-child(1){background:var(--glp1)}  .tb-mark i:nth-child(2){background:var(--gip)}
+.tb-mark i:nth-child(3){background:var(--gluc)}  .tb-mark i:nth-child(4){background:var(--amylin)}
+.tb-brandtext{font-family:var(--serif); font-weight:600; font-size:1rem; color:var(--ink); letter-spacing:-.01em}
+.toolbar{transition:box-shadow .25s ease}
+.toolbar.scrolled{box-shadow:0 6px 20px rgba(20,28,22,.07)}
+
+/* ── cross-fade between views ───────────────────────────────────── */
+@keyframes viewIn{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+.view-enter{animation:viewIn .44s cubic-bezier(.2,.7,.2,1)}
 .seg{display:inline-flex; align-items:center; gap:3px; background:var(--track); border-radius:10px; padding:3px}
 .seg button{
   cursor:pointer; border:0; background:transparent; color:var(--muted);
@@ -468,6 +503,8 @@ svg.plot.cmp .dot:hover .pt{r:15px}
   .seg button{padding:8px 10px; font-size:.66rem; min-height:40px}
   .toggle{min-height:40px}
   .detail-toggle{min-height:44px}
+  .tb-brandtext{display:none}
+  .toolbar.scrolled .tb-brand{max-width:34px}
   .channel-chip .rx{margin-left:0}
   .stat{padding:0 13px}
   .ticklabel{font-size:20px}
@@ -509,7 +546,7 @@ html.reduce .bar-fill{transition:none}
 <body>
 
 <!-- ════════════ MASTHEAD ════════════ -->
-<header class="masthead">
+<header class="masthead" id="top">
   <span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
   <div class="wrap mast-inner">
     <div class="mast-top">
@@ -523,9 +560,15 @@ html.reduce .bar-fill{transition:none}
   </div>
 </header>
 
+<div class="mast-sentinel" aria-hidden="true"></div>
+
 <!-- ════════════ TOOLBAR ════════════ -->
 <div class="toolbar">
   <div class="wrap toolbar-inner">
+    <a class="tb-brand" href="#top" aria-hidden="true" tabindex="-1">
+      <span class="tb-mark"><i></i><i></i><i></i><i></i></span>
+      <span class="tb-brandtext">Weight-Loss Agents</span>
+    </a>
     <div class="seg" id="viewSeg" role="group" aria-label="View">
       <button data-view="map" aria-pressed="true"><span class="ic">◎</span>Positioning map</button>
       <button data-view="cards" aria-pressed="false"><span class="ic">▥</span>Detail cards</button>
@@ -1156,16 +1199,25 @@ function renderAccess(){
 }
 
 /* ════════════ CONTROLS ════════════ */
-function setView(v){
+function setView(v, userInitiated){
   state.view=v;
   $("#viewSeg").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.view===v)));
   $("#mapView").hidden = v!=="map";
   $("#cardsView").hidden = v!=="cards";
   $("#accessView").hidden = v!=="access";
   $("#cardControls").style.display = v==="cards" ? "flex" : "none";
+  const el = v==="map" ? $("#mapView") : v==="cards" ? $("#cardsView") : $("#accessView");
+  if(el && !state.reduce){ el.classList.remove("view-enter"); void el.offsetWidth; el.classList.add("view-enter"); }
+  if(userInitiated) scrollToContentTop();
+}
+function scrollToContentTop(){
+  const main=document.querySelector("main"), tb=document.querySelector(".toolbar");
+  if(!main) return;
+  const y=main.getBoundingClientRect().top+window.scrollY-(tb?tb.offsetHeight:0)-8;
+  if(window.scrollY>y+4) window.scrollTo({top:Math.max(0,y), behavior: state.reduce?"auto":"smooth"});
 }
 function wireControls(){
-  $("#viewSeg").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b)setView(b.dataset.view); });
+  $("#viewSeg").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b)setView(b.dataset.view, true); });
   $("#sortSeg").addEventListener("click",e=>{
     const b=e.target.closest("button"); if(!b)return;
     state.sort=b.dataset.sort;
@@ -1211,6 +1263,12 @@ function init(){
     clearTimeout(rt);
     rt=setTimeout(()=>{ if((window.innerWidth<640)!==lastCompact) renderMap(); },180);
   });
+
+  // sticky app-bar: reveal the brand mark once the hero scrolls away
+  const sentinel=document.querySelector(".mast-sentinel"), tbar=document.querySelector(".toolbar");
+  if(sentinel && tbar && "IntersectionObserver" in window){
+    new IntersectionObserver(([e])=>{ tbar.classList.toggle("scrolled", !e.isIntersecting); }, {threshold:0}).observe(sentinel);
+  }
 }
 if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init);
 else init();
