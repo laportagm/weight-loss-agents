@@ -196,6 +196,39 @@ body{background:var(--bg);color:var(--ink);font-family:var(--serif);min-height:1
 .how-to-item b{font-weight:600;color:var(--ink)}
 .sort-label{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.06em;color:var(--faint);flex-shrink:0}
 .lever-grid-lbl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.38);margin:18px 0 9px}
+.nutrition-lead-card{background:var(--card);border:1px solid var(--hair);border-left:3px solid #2E8B57;border-radius:12px;padding:18px 18px 17px;box-shadow:0 6px 18px rgba(20,32,36,.04);margin-bottom:14px}
+.nutrition-kicker{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--muted);margin-bottom:7px}
+.nutrition-title{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.18;color:var(--ink);margin:0}
+.nutrition-lede{font-family:var(--serif);font-size:16px;line-height:1.55;color:var(--muted);margin-top:8px;max-width:650px}
+.nutrition-caveat{margin-top:13px;padding:11px 13px;border-radius:9px;background:rgba(180,83,43,.07);border:1px solid rgba(180,83,43,.25);font-family:var(--serif);font-size:15px;line-height:1.45;color:#8B3A1A}
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-bottom:14px}
+.quick-card{background:var(--card);border:1px solid var(--hair);border-radius:12px;padding:14px 15px;box-shadow:0 6px 18px rgba(20,32,36,.04)}
+.quick-num{font-family:var(--mono);font-size:12px;font-weight:700;color:#2E8B57;margin-bottom:6px}
+.quick-head{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--ink);margin-bottom:5px}
+.quick-body{font-family:var(--serif);font-size:15px;line-height:1.5;color:var(--muted)}
+.target-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px;margin-bottom:14px}
+.target-tile{background:#F7F9F9;border:1px solid var(--hair);border-radius:10px;padding:12px 13px}
+.target-val{font-family:var(--mono);font-size:17px;font-weight:700;color:var(--ink);line-height:1.15}
+.target-lbl{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;color:var(--faint);margin-top:5px}
+.nutrition-section{margin-top:17px}
+.nutrition-card-stack{display:flex;flex-direction:column;gap:10px}
+.watch-card{background:var(--card);border:1px solid var(--hair);border-radius:12px;padding:15px 16px;box-shadow:0 6px 18px rgba(20,32,36,.04)}
+.watch-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.watch-name{font-family:var(--serif);font-size:20px;font-weight:600;line-height:1.15;color:var(--ink)}
+.watch-time{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--muted);background:var(--bg);border:1px solid var(--hair);border-radius:999px;padding:4px 9px}
+.watch-body{font-family:var(--serif);font-size:15px;line-height:1.5;color:var(--muted);margin-top:8px}
+.watch-action{margin-top:10px;padding:10px 12px;border-radius:9px;background:rgba(46,139,87,.08);border:1px solid rgba(46,139,87,.24);font-family:var(--serif);font-size:15px;line-height:1.45;color:var(--ink)}
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:11px;margin-top:10px}
+.lab-card{background:var(--card);border:1px solid var(--hair);border-radius:12px;padding:15px 16px;box-shadow:0 6px 18px rgba(20,32,36,.04)}
+.lab-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:9px}
+.lab-list li{font-family:var(--serif);font-size:15px;color:var(--muted);line-height:1.45;padding-left:18px;position:relative}
+.lab-list li::before{content:"";width:6px;height:6px;border-radius:50%;background:#2E8B57;position:absolute;left:0;top:.62em}
+.warning-box{margin-top:14px;background:rgba(180,83,43,.07);border:1px solid rgba(180,83,43,.28);border-left:3px solid #B4532B;border-radius:12px;padding:15px 16px}
+.warning-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:7px 14px;margin-top:9px}
+.warning-item{font-family:var(--serif);font-size:15px;line-height:1.45;color:var(--muted)}
+.warning-item strong{color:#8B3A1A;font-weight:600}
+.nutrition-src{font-family:var(--mono);font-size:11px;line-height:1.45;color:var(--faint);margin-top:14px}
+@media(max-width:480px){.nutrition-title{font-size:22px}.target-val{font-size:15px}.watch-name{font-size:19px}.quick-grid,.target-strip,.lab-grid,.warning-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -220,6 +253,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--serif);min-height:1
   <div id="mapView" class="tab-view"></div>
   <div id="cardsView" class="tab-view" style="display:none"></div>
   <div id="sourcingView" class="tab-view" style="display:none"></div>
+  <div id="nutritionView" class="tab-view" style="display:none"></div>
 </main>
 <div class="footer-wrap">
   <div class="footer-card">
@@ -347,7 +381,8 @@ function buildToolbarBrand(){
 const TABS=[
   {id:"map",label:"OVERVIEW",title:"Visual map — tap any drug to explore"},
   {id:"cards",label:"DRUG LIST",title:"All 10 drugs ranked and fully detailed"},
-  {id:"sourcing",label:"SUPPLIERS",title:"Vetted suppliers with independent purity scores"}
+  {id:"sourcing",label:"SUPPLIERS",title:"Vetted suppliers with independent purity scores"},
+  {id:"nutrition",label:"NUTRITION",title:"Protect muscle, bone, and micronutrient status"}
 ];
 function buildTabBar(){
   document.getElementById("tabPills").innerHTML=TABS.map(t=>`<button class="tab-btn" role="tab" data-tab="${t.id}" aria-pressed="${ST.view===t.id}" title="${t.title}">${t.label}</button>`).join("")
@@ -373,7 +408,7 @@ function switchTab(tab){
   ST.expandedCards.clear();
   ST.expandedVendors.clear();
   document.querySelectorAll(".tab-btn").forEach(b=>b.setAttribute("aria-pressed",b.dataset.tab===tab));
-  ["map","cards","sourcing"].forEach(id=>{
+  ["map","cards","sourcing","nutrition"].forEach(id=>{
     const el=document.getElementById(id+"View");
     el.style.display=id===tab?"block":"none";
     if(id===tab){el.style.animation="none";el.offsetHeight;el.style.animation=""}
@@ -462,10 +497,44 @@ function renderSourcing(){
   document.getElementById("sourcingView").innerHTML=`<div class="sec-eyebrow">VENDOR SOURCING</div><h2 class="sec-h2">Finnrick-verified suppliers</h2><p class="sec-lede">All rankings from Finnrick's blind third-party testing program. Data reflects the most recent test window available for each vendor.</p><div class="vendor-cards">${vcards}</div>${avoidHtml}${verifHtml}`
 }
 
+function renderNutrition(){
+  const quick=[
+    {h:"Hit protein daily",b:"Aim for 1.2-1.6 g/kg body weight per day, split into 20-40 g per meal or snack so the muscle-building signal repeats."},
+    {h:"Lift while losing",b:"Resistance training 2-4x / week is the practical difference between losing mostly fat and giving up avoidable lean mass."},
+    {h:"Avoid an extreme deficit",b:"For women, staying above roughly 1,200 kcal/day lowers deficiency risk. Faster loss is not automatically better loss."},
+    {h:"Supplement the gaps",b:"Use a complete multivitamin-mineral, vitamin D, and calcium as the baseline. Add iron or Vitamin B12 based on labs, not guessing."},
+    {h:"Monitor deliberately",b:"Check vitamin D, ferritin/iron, Vitamin B12, and a CMP before starting, then every 3-6 months while dose and intake are changing."}
+  ];
+  const targets=[
+    {v:"1.2-1.6 g/kg",l:"protein per day"},
+    {v:"20-40 g",l:"protein per meal"},
+    {v:">=21 g",l:"fiber per day for women"},
+    {v:"2-4x / week",l:"resistance training"},
+    {v:"3-6 months",l:"repeat lab cadence"}
+  ];
+  const watch=[
+    {n:"Iron",t:"Often 6-12 months; faster if menstruating",b:"The biggest women-specific gap: lower intake plus monthly losses can drain stores, especially if red meat or iron-rich foods become aversive.",a:"Test ferritin and iron studies. Supplement iron only when labs show need."},
+    {n:"Vitamin D + Calcium",t:"Can be early",b:"Vitamin D is commonly low, and rapid weight loss can stress bone density. Perimenopause or menopause raises the importance of a bone baseline.",a:"Dose vitamin D to blood level, target calcium from food plus supplement, and consider DEXA for bone and body composition."},
+    {n:"Vitamin B12",t:"Builds over months",b:"Less animal protein and slower gastric emptying can reduce intake and absorption. Neurologic symptoms are the red flag, not something to watch casually.",a:"Check B12 if fatigue, tingling, numbness, gait change, or cognitive fog appears. Nerve symptoms deserve prompt clinical review."},
+    {n:"Magnesium + Zinc",t:"Variable",b:"These round out the common shortfall list. Magnesium can also help with cramps and constipation, two common GLP-1 problems.",a:"Use labs and symptoms to individualize. Magnesium glycinate or citrate is often gentler."},
+    {n:"Fat-soluble vitamins",t:"Often 6-9 months",b:"A, D, E, and K rely on fat handling. Low intake, delayed gastric emptying, and GI symptoms can make long-term adequacy harder.",a:"Do not megadose blindly; use a complete multi and clinical follow-up if intake stays low."}
+  ];
+  const baseline=["Vitamin D (25-OH)","Iron studies including ferritin","Vitamin B12","Comprehensive Metabolic Panel (CMP)","Consider DEXA for lean mass and bone density"];
+  const rhythm=["Protein first at each meal","Liquid protein for nausea days","Eat on a schedule, not only hunger","Add fiber gradually with fluids","Front-load nutrition if nausea worsens later"];
+  const warnings=["Fatigue beyond expected weight-loss fatigue","Excessive hair shedding","Muscle weakness","Poor wound healing or unusual bruising","Dizziness on standing or brittle nails","Any nerve symptoms: tingling, numbness, balance/gait changes, or cognitive fog"];
+  const quickHtml=quick.map((x,i)=>`<div class="quick-card"><div class="quick-num">${String(i+1).padStart(2,"0")}</div><div class="quick-head">${esc(x.h)}</div><div class="quick-body">${esc(x.b)}</div></div>`).join("");
+  const targetHtml=targets.map(x=>`<div class="target-tile"><div class="target-val">${esc(x.v)}</div><div class="target-lbl">${esc(x.l).toUpperCase()}</div></div>`).join("");
+  const watchHtml=watch.map(x=>`<div class="watch-card"><div class="watch-top"><div class="watch-name">${esc(x.n)}</div><div class="watch-time">${esc(x.t)}</div></div><div class="watch-body">${esc(x.b)}</div><div class="watch-action">${esc(x.a)}</div></div>`).join("");
+  const labHtml=`<div class="lab-grid"><div class="lab-card"><div class="quick-head">BASELINE PANEL</div><ul class="lab-list">${baseline.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div><div class="lab-card"><div class="quick-head">DAILY / WEEKLY RHYTHM</div><ul class="lab-list">${rhythm.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></div>`;
+  const warningHtml=`<div class="warning-box"><div class="quick-head" style="color:#8B3A1A">WARNING SIGNS</div><div class="quick-body">Do not wait-and-see if these appear, especially neurologic symptoms.</div><div class="warning-grid">${warnings.map(x=>`<div class="warning-item">${x.startsWith("Any nerve")?`<strong>${esc(x)}</strong>`:esc(x)}</div>`).join("")}</div></div>`;
+  document.getElementById("nutritionView").innerHTML=`<div class="nutrition-lead-card"><div class="nutrition-kicker">NUTRITION WHILE APPETITE IS SUPPRESSED</div><h2 class="nutrition-title">Lose fat without accidentally losing muscle, bone, or nutrient status.</h2><p class="nutrition-lede">Retatrutide is investigational and can produce very large weight loss. That raises the nutrition stakes: appetite suppression, GI side effects, and the glucagon component make protein, resistance training, and lab monitoring more important, not less.</p><div class="nutrition-caveat">Educational reference only, not medical advice. Retatrutide is investigational and has no built-in prescribing protocol outside trials; monitoring should be owned by a physician, ideally with a registered dietitian.</div></div><div class="quick-grid">${quickHtml}</div><div class="target-strip">${targetHtml}</div><div class="nutrition-section"><div class="sec-eyebrow">MICRONUTRIENTS TO WATCH</div><h2 class="sec-h2">The likely gaps have different timelines.</h2><p class="sec-lede">The point is not to take everything blindly. Use a baseline, repeat labs every 3-6 months, and target supplements to what is actually low.</p><div class="nutrition-card-stack">${watchHtml}</div></div><div class="nutrition-section"><div class="sec-eyebrow">LABS AND HABITS</div><h2 class="sec-h2">Make monitoring deliberate before the scale moves fast.</h2>${labHtml}${warningHtml}</div><div class="nutrition-src">Sources: attached nutrition guide; joint 2025 GLP-1 nutrition advisory from ACLM, ASN, OMA, and The Obesity Society; Lilly retatrutide Phase 3 trial listings/results; 2025-2026 clinical reviews on lean mass and micronutrient risk during GLP-1 therapy.</div>`
+}
+
 function renderView(){
   if(ST.view==="map")renderMap();
   else if(ST.view==="cards")renderCards();
-  else renderSourcing()
+  else if(ST.view==="sourcing")renderSourcing();
+  else if(ST.view==="nutrition")renderNutrition();
 }
 
 document.addEventListener("click",e=>{
